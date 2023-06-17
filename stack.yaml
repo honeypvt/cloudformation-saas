@@ -22,6 +22,19 @@ Resources:
               - ec2:DeleteNetworkInterface
             Resource: "*"
 
+  NewTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      AttributeDefinitions:
+        - AttributeName: user_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: user_id
+          KeyType: HASH
+
   HelloTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -128,12 +141,25 @@ Resources:
                 Resource:
                   - !GetAtt HelloLambda.Arn
 
+  MyLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      Role: !GetAtt HelloLambdaRole.Arn  # TODO
+      Handler: index.handleHttpRequest
+      Runtime: nodejs14.x
+      Environment:
+        Variables:
+          NEW_DB: !Sub "arn:aws:dynamodb:${AWS::Region}:*:table/${NewTable}"
+      Code:
+        ZipFile: |
+          exports.handlers = function(event, context) {}
+
   HelloLambda:
     Type: AWS::Lambda::Function
     Properties:
       Role: !GetAtt HelloLambdaRole.Arn  # TODO
       Handler: index.handleHttpRequest
-      Runtime: nodejs12.x
+      Runtime: nodejs14.x
       Environment:
         Variables:
           HELLO_DB: !Sub "arn:aws:dynamodb:${AWS::Region}:*:table/${HelloTable}"
