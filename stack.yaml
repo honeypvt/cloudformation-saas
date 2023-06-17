@@ -141,7 +141,7 @@ Resources:
                 Resource:
                   - !GetAtt HelloLambda.Arn
 
-  MyLambda:
+  NewLambda:
     Type: AWS::Lambda::Function
     Properties:
       Role: !GetAtt HelloLambdaRole.Arn  # TODO
