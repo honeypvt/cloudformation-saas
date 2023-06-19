@@ -134,7 +134,7 @@ Resources:
         produces:
           - application/json
         paths:
-          /users/{userId}/new:
+          /users/{userId}/home/new:
             get:
               description: TBD
               x-amazon-apigateway-integration:
