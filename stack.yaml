@@ -114,6 +114,71 @@ Resources:
                       email:
                         type: string
 
+  MyApiGateway:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: !Sub "${AWS::StackName}-MyApiGateway"
+      Description: A description
+      FailOnWarnings: true
+      Body:
+        swagger: 2.0
+        info:
+          description: |
+            The account API.
+          version: 1.0
+        basePath: /
+        schemes:
+          - https
+        consumes:
+          - application/json
+        produces:
+          - application/json
+        paths:
+          /users/{userId}/new:
+            get:
+              description: TBD
+              x-amazon-apigateway-integration:
+                uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${NewLambda.Arn}/invocations"
+                credentials: !GetAtt MyApiGatewayRole.Arn
+                passthroughBehavior: when_no_match
+                httpMethod: POST
+                type: aws_proxy
+              operationId: getNew
+              parameters:
+                - name: userId
+                  in: path
+                  description: TBD
+                  required: true
+                  type: string
+                  format: uuid
+            post:
+              description: TBD
+              x-amazon-apigateway-integration:
+                uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${NewLambda.Arn}/invocations"
+                credentials: !GetAtt MyApiGatewayRole.Arn
+                passthroughBehavior: when_no_match
+                httpMethod: POST
+                type: aws_proxy
+              operationId: postNew
+              parameters:
+                - name: userId
+                  in: path
+                  description: TBD
+                  required: true
+                  type: string
+                  format: uuid
+                - name: body
+                  in: body
+                  description: TBD
+                  required: true
+                  schema:
+                    type: object
+                    required:
+                    - email
+                    properties:
+                      email:
+                        type: string
+
   MyApiGatewayDeployment:
     Type: AWS::ApiGateway::Deployment
     Properties:
