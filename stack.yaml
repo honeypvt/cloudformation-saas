@@ -114,10 +114,10 @@ Resources:
                       email:
                         type: string
 
-  MyApiGateway:
+  NewApiGateway:
     Type: AWS::ApiGateway::RestApi
     Properties:
-      Name: !Sub "${AWS::StackName}-MyApiGateway"
+      Name: !Sub "${AWS::StackName}-NewApiGateway"
       Description: A description
       FailOnWarnings: true
       Body:
@@ -134,7 +134,7 @@ Resources:
         produces:
           - application/json
         paths:
-          /users/{userId}/hello/new:
+          /users/{userId}/new:
             get:
               description: TBD
               x-amazon-apigateway-integration:
