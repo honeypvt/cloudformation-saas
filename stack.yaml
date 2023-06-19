@@ -188,7 +188,7 @@ Resources:
                 Action:
                   - dynamodb:GetItem
                 Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:*:table/${HelloTable}"
-        - PolicyName: putHello
+        - PolicyName: putNew
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
