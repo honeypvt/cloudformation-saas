@@ -195,4 +195,4 @@ Resources:
               - Effect: Allow
                 Action:
                   - dynamodb:PutItem
-                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:*:table/${HelloTable}"
+                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:*:table/${NewTable}"
